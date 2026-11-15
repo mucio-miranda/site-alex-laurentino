@@ -503,30 +503,3 @@ details[open]::details-content{height:auto}
   .tribuna .simbolo{right:-14%;top:3%;width:78vw;opacity:.09}
   .tribuna .wrap{margin-top:-96px}
 }
-
-/* ===== celular: Quatro etapas como caminho vertical, sem fotos ===== */
-@media (max-width:820px){
-  .passos .etapa-foto,.passos .car-dots{display:none!important}
-  .passos .etapas{display:block;position:relative;margin:0;padding:6px 0 0 42px;overflow:visible;scroll-snap-type:none}
-  .passos .etapas::before,.passos .etapas::after{content:"";position:absolute;left:8px;top:14px;width:1px}
-  .passos .etapas::before{bottom:14px;background:var(--linha-n)}
-  .passos .etapa:last-child{padding-bottom:0}
-  .passos .etapa:last-child::before{content:"";position:absolute;left:-36px;top:18px;bottom:-2px;width:5px;background:var(--preto);z-index:1}
-  .passos .etapas::after{z-index:2;height:calc(var(--prog,0) * var(--trilho,100%));background:linear-gradient(180deg,rgba(194,168,126,.2),var(--ouro-2))}
-  .passos .etapa{position:relative;display:block;flex:none;padding:0 0 40px;opacity:1!important;transform:none!important}
-  .passos .etapa-num{position:relative;z-index:3;font-variant-numeric:lining-nums;margin:0 0 12px -42px;gap:18px;font-size:14px;color:var(--marfim-2);transition:color .5s}
-  .passos .etapa-num::after{display:none}
-  .passos .etapa-num i{width:15px;height:15px;margin-left:1px;background:var(--preto);border:1px solid rgba(234,234,234,.3);transition:background .5s,border-color .5s,box-shadow .6s}
-  .passos .etapa h3{font-size:27px;margin-bottom:8px;transition:color .5s}
-  .passos .etapa p{font-size:15px;max-width:none;transition:opacity .5s}
-  .passos .etapa:not(.on) h3{color:rgba(234,234,234,.5)}
-  .passos .etapa:not(.on) p{opacity:.55}
-  .passos .etapa.on .etapa-num{color:var(--ouro-2)}
-  .passos .etapa.on .etapa-num i{background:var(--ouro-2);border-color:var(--ouro-2);box-shadow:0 0 0 5px rgba(194,168,126,.12)}
-}
-
-/* ===== fecho com foto ao fundo, em opacidade baixa ===== */
-.fecho{background:radial-gradient(50% 45% at 50% 55%,rgba(2,28,52,.3),transparent 100%),
-  linear-gradient(180deg,var(--preto) 0%,rgba(1,3,8,.86) 28%,rgba(1,3,8,.84) 72%,var(--preto) 100%),
-  url(../assets/img/contato.jpg) 50% 66%/cover no-repeat,var(--preto)}
-@media (max-width:820px){.fecho{background-position:center,center,58% 70%,center}}
