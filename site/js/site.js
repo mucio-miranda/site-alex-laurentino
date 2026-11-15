@@ -7,25 +7,16 @@
   bg.addEventListener('click',function(){var a=menu.classList.toggle('aberto');bg.setAttribute('aria-expanded',a?'true':'false');bg.setAttribute('aria-label',a?'Fechar menu':'Abrir menu')});
   document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',fecha)});
   addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('aberto')){fecha();bg.focus()}});
-  /* quatro etapas como padrão de UI: formato pelo endereço (?etapas=a|b|c) */
-  var pas=document.querySelector('.passos[data-v]');
-  if(pas){var ve=(location.search.match(/[?&]etapas=([abc])/)||[])[1];if(ve)pas.setAttribute('data-v',ve);var vP=pas.getAttribute('data-v');
-    var lisP=pas.querySelectorAll('.etapa');
-    [].forEach.call(lisP,function(li,k){var d=document.createElement('div');d.className='txt';
-      [].slice.call(li.querySelectorAll('h3,p')).forEach(function(n){d.appendChild(n)});li.appendChild(d);
-      li.style.setProperty('--k',k);li.setAttribute('data-fls','Fls. 0'+(k+1));if(k===0)li.classList.add('ativa','on');
-      if(vP==='b'){var nn=li.querySelector('.etapa-num span');if(nn)nn.textContent='Etapa 0'+(k+1)+' de 04'}});
-    if(vP==='b'){var dl=document.createElement('div');dl.className='dial';dl.setAttribute('aria-hidden','true');
-      var s='<svg viewBox="0 0 200 200"><defs><linearGradient id="dial-ouro" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#E9DBBE"/><stop offset="1" stop-color="#9C8460"/></linearGradient></defs><circle class="d-base" cx="100" cy="100" r="88"/>';
-      for(var a=0;a<60;a++){var an=a*6*Math.PI/180,r1=a%15===0?0:(a%5===0?80:83.5),r2=85;if(r1)s+='<line class="d-tick" x1="'+(100+r1*Math.sin(an)).toFixed(2)+'" y1="'+(100-r1*Math.cos(an)).toFixed(2)+'" x2="'+(100+r2*Math.sin(an)).toFixed(2)+'" y2="'+(100-r2*Math.cos(an)).toFixed(2)+'"/>'}
-      s+='<circle class="d-prog" cx="100" cy="100" r="88" pathLength="1"/>';
-      for(var q=0;q<4;q++){var aq=q*Math.PI/2,x=100+88*Math.sin(aq),y=100-88*Math.cos(aq),lx=100+101*Math.sin(aq),ly=100-101*Math.cos(aq)+2;
-        s+='<rect class="d-no'+(q===0?' on':'')+'" x="'+(x-3.2)+'" y="'+(y-3.2)+'" width="6.4" height="6.4" transform="rotate(45 '+x+' '+y+')"/><text class="d-rot'+(q===0?' on':'')+'" x="'+lx+'" y="'+ly+'" text-anchor="middle">0'+(q+1)+'</text>'}
-      dl.innerHTML=s+'</svg><div class="d-centro"><b>01</b><span>de 04</span></div>';pas.querySelector('.wrap').appendChild(dl);
-      if(matchMedia('(prefers-reduced-motion: reduce)').matches)pas.classList.add('estatico');
-      setTimeout(function(){if(!window.gsap)pas.classList.add('estatico')},1700)}
-    if(vP==='c'&&matchMedia('(max-width:820px)').matches){var olC=pas.querySelector('.etapas');olC.addEventListener('scroll',function(){var w=olC.clientWidth;[].forEach.call(lisP,function(l){var r=l.getBoundingClientRect();l.classList.toggle('on',r.left<w*.6&&r.right>w*.2)})},{passive:true})}
-    if(vP==='c'&&matchMedia('(prefers-reduced-motion: reduce)').matches)[].forEach.call(lisP,function(l){l.classList.add('on')})}
+  /* quatro etapas: jornada horizontal; os ícones se desenham quando a etapa acende */
+  var pas=document.querySelector('.passos[data-v="jornada"]'),lisP=pas?pas.querySelectorAll('.etapa'):[];
+  if(pas){[].forEach.call(pas.querySelectorAll('.etapa-ic svg *'),function(n){try{n.style.setProperty('--len',Math.ceil(n.getTotalLength()+1))}catch(e){}});
+    lisP[0].classList.add('on');
+    var acende=function(k){[].forEach.call(lisP,function(l,i){l.classList.toggle('on',i<=k)})};
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)acende(3);
+    else if(matchMedia('(max-width:820px)').matches){var olJ=pas.querySelector('.etapas');
+      var porRolagem=function(){var w=olJ.clientWidth,m=0;[].forEach.call(lisP,function(l,i){if(l.getBoundingClientRect().left<w*.55)m=i});acende(m)};
+      olJ.addEventListener('scroll',porRolagem,{passive:true})}
+    setTimeout(function(){if(!window.gsap)acende(3)},1700)}
   var ol=document.querySelector('.etapas'),dots=document.querySelector('.car-dots');
   if(ol&&dots&&!pas){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
     lis.forEach(function(li,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Etapa '+(k+1));b.addEventListener('click',function(){ol.scrollTo({left:li.offsetLeft-ol.offsetLeft-pad(),behavior:'smooth'})});dots.appendChild(b)});
@@ -128,16 +119,11 @@
   gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
-  /* etapas: animação de cada formato */
-  if(pas&&vP==='a'){[].forEach.call(lisP,function(li,k){var prox=lisP[k+1];if(!prox)return;
-    gsap.to(li,{scale:.94,filter:'brightness(.55)',ease:'none',scrollTrigger:{trigger:prox,start:'top 85%',end:'top 30%',scrub:true}})})}
-  if(pas&&vP==='b'){var dP=pas.querySelector('.d-prog'),dB=pas.querySelector('.d-centro b'),nos=pas.querySelectorAll('.d-no'),rots=pas.querySelectorAll('.d-rot');
-    ScrollTrigger.create({trigger:pas,start:'top top',end:'+=260%',pin:true,scrub:.5,onUpdate:function(s){var p=s.progress;dP.style.strokeDashoffset=(1-Math.min(1,p*1.0)).toFixed(4);
-      var k=Math.min(3,Math.floor(p*4*0.999));dB.textContent='0'+(k+1);
-      [].forEach.call(lisP,function(l,i){l.classList.toggle('ativa',i===k)});[].forEach.call(nos,function(n,i){n.classList.toggle('on',p>=i/4-.001)});[].forEach.call(rots,function(n,i){n.classList.toggle('on',i===k)})}})}
-  if(pas&&vP==='c'&&desk){var trC=pas.querySelector('.etapas'),dist=function(){return Math.max(0,trC.scrollWidth-pas.querySelector('.wrap').clientWidth+40)};
+  /* etapas: no computador a seção fica parada e a rolagem empurra o caminho para o lado */
+  if(pas&&desk){var trC=pas.querySelector('.etapas'),dist=function(){return Math.max(0,trC.scrollWidth-pas.querySelector('.wrap').clientWidth)};
     gsap.to(trC,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:pas,start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.6,invalidateOnRefresh:true,
-      onUpdate:function(s){var k=Math.round(s.progress*3);[].forEach.call(lisP,function(l,i){l.classList.toggle('on',i<=k)})}}})}
+      onUpdate:function(s){var p=s.progress;trC.style.setProperty('--prog',p.toFixed(4));var k=Math.min(3,Math.floor(p*3.2+.15));[].forEach.call(lisP,function(l,i){l.classList.toggle('on',i<=k)})}}})}
+  else if(pas&&!desk){ScrollTrigger.create({trigger:pas,start:'top 70%',once:true,onEnter:function(){lisP[0].classList.add('on')}})}
   if(!desk){
     gsap.to('[data-parallax]',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
     gsap.fromTo('.tribuna .simbolo',{yPercent:10},{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
