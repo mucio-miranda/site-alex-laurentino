@@ -237,6 +237,34 @@ footer .txt{color:var(--cinza);font-size:14px;max-width:320px}
 .contato label{color:rgba(234,234,234,.7);letter-spacing:.16em}
 .dados a{display:inline-flex;align-items:center;min-height:44px}
 .aviso-form{color:#a29b94}
+
+/* ===== movimento: "emergir do escuro" ===== */
+.loader{position:fixed;inset:0;z-index:200;background:var(--preto);display:grid;place-items:center;transition:opacity .7s cubic-bezier(.16,1,.3,1),visibility .7s}
+.loader svg{width:76px;height:auto;overflow:visible}
+.loader path{fill:var(--ouro-2);fill-opacity:0;stroke:var(--ouro-2);stroke-width:2.2;stroke-dasharray:1;stroke-dashoffset:1;animation:traco 1s cubic-bezier(.65,0,.35,1) .1s forwards,preenche .5s ease .85s forwards}
+.loader.sai{opacity:0;visibility:hidden}
+html.sem-loader .loader{display:none}
+@keyframes traco{to{stroke-dashoffset:0}}
+@keyframes preenche{to{fill-opacity:1;stroke-opacity:0}}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin-bottom:-.14em}
+.w>span{display:inline-block;will-change:transform}
+.ouro .w>span{background:var(--ouro);-webkit-background-clip:text;background-clip:text;color:transparent}
+.linha-anim{background:linear-gradient(var(--linha-n),var(--linha-n)) left bottom/0% 1px no-repeat;border-bottom-color:transparent!important;transition:background-size 1.1s cubic-bezier(.16,1,.3,1)}
+.linha-anim.on{background-size:100% 1px}
+/* botão: a seta avança e um brilho atravessa a pílula */
+.btn-pilula .pil{position:relative;overflow:hidden}
+.btn-pilula .pil::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.btn-pilula:hover .pil::after{transform:translateX(120%)}
+.btn-pilula .pil svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.btn-pilula:hover .pil svg{transform:translateX(4px)}
+/* links: o sublinhado se desenha */
+.link-sub,.dados a{background:linear-gradient(var(--ouro-2),var(--ouro-2)) left bottom/0% 1px no-repeat;transition:background-size .45s cubic-bezier(.16,1,.3,1),border-color .3s}
+.link-sub:hover,.dados a:hover{background-size:100% 1px}
+/* FAQ: abre e fecha com altura animada (navegadores atuais) */
+:root{interpolate-size:allow-keywords}
+details::details-content{height:0;overflow:clip;transition:height .45s cubic-bezier(.16,1,.3,1),content-visibility .45s allow-discrete}
+details[open]::details-content{height:auto}
+@media (prefers-reduced-motion:reduce){.loader{display:none}.w>span{transform:none!important}.btn-pilula .pil::after{display:none}details::details-content{transition:none}}
 .barra-ct{display:none}
 .car-dots{display:none}
 @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}html{scroll-behavior:auto}}
