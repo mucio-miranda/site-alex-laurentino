@@ -7,8 +7,15 @@
   bg.addEventListener('click',function(){var a=menu.classList.toggle('aberto');bg.setAttribute('aria-expanded',a?'true':'false');bg.setAttribute('aria-label',a?'Fechar menu':'Abrir menu')});
   document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',fecha)});
   addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('aberto')){fecha();bg.focus()}});
+  /* quatro etapas: texto agrupado e formato escolhido pelo endereço (?etapas=a|b|c) */
+  var pas=document.querySelector('.passos[data-v]');
+  if(pas){var ve=(location.search.match(/[?&]etapas=([abc])/)||[])[1];if(ve==='c'&&matchMedia('(max-width:820px)').matches)ve='a';if(ve)pas.setAttribute('data-v',ve);
+    [].forEach.call(pas.querySelectorAll('.etapa'),function(li,k){var d=document.createElement('div');d.className='txt';
+      [].slice.call(li.querySelectorAll('h3,p')).forEach(function(n){d.appendChild(n)});li.appendChild(d);if(k===0)li.classList.add('ativa');
+      li.addEventListener('click',function(){if(pas.getAttribute('data-v')!=='b')return;[].forEach.call(pas.querySelectorAll('.etapa'),function(o){o.classList.toggle('ativa',o===li)})});
+      li.addEventListener('mouseenter',function(){if(pas.getAttribute('data-v')==='b'&&matchMedia('(min-width:821px)').matches)[].forEach.call(pas.querySelectorAll('.etapa'),function(o){o.classList.toggle('ativa',o===li)})})})}
   var ol=document.querySelector('.etapas'),dots=document.querySelector('.car-dots');
-  if(ol&&dots){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
+  if(ol&&dots&&!(pas&&pas.getAttribute('data-v')==='b')){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
     lis.forEach(function(li,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Etapa '+(k+1));b.addEventListener('click',function(){ol.scrollTo({left:li.offsetLeft-ol.offsetLeft-pad(),behavior:'smooth'})});dots.appendChild(b)});
     var marca=function(){var x=ol.scrollLeft,m=0,d=1e9;lis.forEach(function(li,k){var dd=Math.abs(li.offsetLeft-ol.offsetLeft-pad()-x);if(dd<d){d=dd;m=k}});[].forEach.call(dots.children,function(b,k){b.setAttribute('aria-current',k===m?'true':'false')});lis.forEach(function(li,k){li.classList.toggle('ativa',k===m)});ol.classList.add('pronto')};
     ol.addEventListener('scroll',marca,{passive:true});marca()}
@@ -96,7 +103,7 @@
   gsap.utils.toArray('main h2.rv, .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
     gsap.from(ws,{yPercent:110,duration:1,ease:'power4.out',stagger:.05,scrollTrigger:{trigger:el,start:'top 86%'}})});
   /* fotos: emergem do escuro, como um fade de cinema, e assentam devagar (leve desfoque só no computador) */
-  gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').forEach(function(f){var img=f.querySelector('img,.dest-bg');
+  gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').filter(function(f){return !(desk&&f.closest('.passos[data-v="c"]'))}).forEach(function(f){var img=f.querySelector('img,.dest-bg');
     var tl=gsap.timeline({scrollTrigger:{trigger:f,start:'top 85%'},defaults:{ease:'power2.out'}});
     tl.fromTo(f,{opacity:0},{opacity:1,duration:1.6},0);
     if(img){tl.fromTo(img,{scale:1.1},{scale:1,duration:2.6,ease:'power3.out',clearProps:'scale'},0);
@@ -109,6 +116,8 @@
   gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
+  if(desk&&pas&&pas.getAttribute('data-v')==='c'){var lisC=pas.querySelectorAll('.etapa');
+    ScrollTrigger.create({trigger:pas,start:'top top',end:'+=220%',pin:true,onUpdate:function(s){var k=Math.min(3,Math.floor(s.progress*4));[].forEach.call(lisC,function(o,i){o.classList.toggle('ativa',i===k)})}})}
   if(!desk){
     gsap.to('[data-parallax]',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
     gsap.fromTo('.tribuna .simbolo',{yPercent:10},{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});

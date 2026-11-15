@@ -496,3 +496,78 @@ details[open]::details-content{height:auto}
 .fecho h2 em{font-style:italic;color:var(--ouro-3)}
 .fecho p{color:var(--cinza);margin:18px auto 34px}
 @media (max-width:820px){.fecho{padding:72px 0 80px}.fecho h2{font-size:34px}}
+
+/* ===== quatro etapas: texto dentro das fotos (a = cartaz · b = painéis · c = sequência) ===== */
+.passos[data-v] .etapa{position:relative}
+.passos[data-v] .etapa-foto img{filter:none}
+.passos[data-v] .etapa:hover .etapa-foto img{filter:none}
+.passos[data-v] .etapa-foto::before{background:linear-gradient(180deg,rgba(1,3,8,.25) 0%,transparent 22%,transparent 42%,rgba(1,3,8,.55) 62%,rgba(1,3,8,.92) 100%)}
+
+/* A · cartaz: número grande no alto, título e texto na base da foto */
+.passos[data-v="a"] .etapa-foto{margin:0;aspect-ratio:3/4.3}
+.passos[data-v="a"] .etapa-num,.passos[data-v="a"] .etapa h3,.passos[data-v="a"] .etapa p{position:absolute;z-index:3;left:22px;right:22px}
+.passos[data-v="a"] .etapa-num{top:18px;margin:0;font:500 54px/1 var(--serif);letter-spacing:0;color:transparent;-webkit-text-stroke:1px rgba(233,219,190,.55)}
+.passos[data-v="a"] .etapa-num i,.passos[data-v="a"] .etapa-num::after{display:none}
+.passos[data-v="a"] .etapa h3{bottom:auto;top:auto;font-size:25px;color:var(--off)}
+.passos[data-v="a"] .etapa .txt{position:absolute;z-index:3;left:22px;right:22px;bottom:22px}
+.passos[data-v="a"] .etapa .txt h3,.passos[data-v="a"] .etapa .txt p{position:static}
+.passos[data-v="a"] .etapa .txt h3{margin-bottom:8px}
+.passos[data-v="a"] .etapa .txt::before{content:"";display:block;width:28px;height:1px;margin-bottom:14px;background:var(--ouro-2);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.passos[data-v="a"] .etapa:hover .txt::before{width:56px}
+.passos[data-v="a"] .etapa p{color:rgba(234,234,234,.72);font-size:14px;line-height:1.6}
+
+/* B · painéis: uma etapa aberta, as outras como faixas */
+@media (min-width:821px){
+  .passos[data-v="b"] .etapas{display:flex;gap:12px;height:min(600px,74vh)}
+  .passos[data-v="b"] .etapa{flex:1 1 0;min-width:0;border-radius:14px;overflow:hidden;cursor:pointer;transition:flex-grow .8s cubic-bezier(.16,1,.3,1)}
+  .passos[data-v="b"] .etapa.ativa{flex-grow:3.4;cursor:default}
+  .passos[data-v="b"] .etapa-foto{position:absolute;inset:0;margin:0;aspect-ratio:auto;height:100%}
+  .passos[data-v="b"] .etapa-foto img{transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .8s}
+  .passos[data-v="b"] .etapa:not(.ativa) .etapa-foto img{filter:brightness(.5) saturate(.7)}
+  .passos[data-v="b"] .etapa:not(.ativa):hover .etapa-foto img{filter:brightness(.7) saturate(.8)}
+  .passos[data-v="b"] .etapa-num{position:absolute;z-index:3;top:22px;left:22px;margin:0;font:500 15px/1 var(--serif);letter-spacing:.12em}
+  .passos[data-v="b"] .etapa-num::after{display:none}
+  .passos[data-v="b"] .txt{position:absolute;z-index:3;left:26px;right:26px;bottom:26px;max-width:420px}
+  .passos[data-v="b"] .txt h3{font-size:30px;margin-bottom:8px;white-space:nowrap}
+  .passos[data-v="b"] .txt p{color:rgba(234,234,234,.75);opacity:0;transform:translateY(8px);transition:opacity .5s,transform .6s cubic-bezier(.16,1,.3,1)}
+  .passos[data-v="b"] .etapa.ativa .txt p{opacity:1;transform:none;transition-delay:.3s}
+  .passos[data-v="b"] .etapa:not(.ativa) .txt h3{position:absolute;left:0;bottom:0;transform-origin:0 100%;transform:rotate(-90deg) translate(0,100%);font-size:22px}
+}
+@media (max-width:820px){
+  .passos[data-v="b"] .etapas{display:grid;grid-template-columns:1fr;gap:10px;overflow:visible;margin:0;padding:0}
+  .passos[data-v="b"] .etapa{flex:none;position:relative;height:84px;border-radius:14px;overflow:hidden;transition:height .7s cubic-bezier(.16,1,.3,1);opacity:1!important;transform:none!important}
+  .passos[data-v="b"] .etapa.ativa{height:440px}
+  .passos[data-v="b"] .etapa-foto{position:absolute;inset:0;margin:0;aspect-ratio:auto;height:100%;border-radius:14px}
+  .passos[data-v="b"] .etapa-foto img{object-position:50% 22%;transition:filter .6s}
+  .passos[data-v="b"] .etapa:not(.ativa) .etapa-foto img{filter:brightness(.42) saturate(.7)}
+  .passos[data-v="b"] .etapa-num{position:absolute;z-index:3;top:33px;left:18px;margin:0}
+  .passos[data-v="b"] .etapa:not(.ativa) .etapa-num{top:34px}
+  .passos[data-v="b"] .etapa-num::after{display:none}
+  .passos[data-v="b"] .txt{position:absolute;z-index:3;left:18px;right:18px;bottom:20px}
+  .passos[data-v="b"] .etapa:not(.ativa) .txt{bottom:auto;top:26px;left:64px}
+  .passos[data-v="b"] .txt h3{font-size:24px;margin-bottom:6px}
+  .passos[data-v="b"] .txt p{color:rgba(234,234,234,.78);font-size:14px;opacity:0;transition:opacity .4s}
+  .passos[data-v="b"] .etapa.ativa .txt p{opacity:1;transition-delay:.25s}
+  .passos[data-v="b"] + * .car-dots,.passos[data-v="b"] .car-dots{display:none}
+}
+
+/* C · sequência: a seção para na tela e a rolagem troca etapa e foto */
+@media (min-width:821px){
+  .passos[data-v="c"]{padding:clamp(64px,7vw,96px) 0}
+  .passos[data-v="c"] .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(40px,6vw,96px);align-items:center;min-height:calc(100svh - 160px)}
+  .passos[data-v="c"] .cab{grid-column:1;flex-direction:column;align-items:flex-start;gap:18px;margin-bottom:34px}
+  .passos[data-v="c"] .etapas{grid-column:1;display:block;counter-reset:none}
+  .passos[data-v="c"] .etapa{position:static;padding:16px 0 16px 22px;border-left:1px solid var(--linha-n);transition:border-color .5s}
+  .passos[data-v="c"] .etapa.ativa{border-left-color:var(--ouro-2)}
+  .passos[data-v="c"] .etapa-num{margin:0 0 8px}
+  .passos[data-v="c"] .etapa-num::after{display:none}
+  .passos[data-v="c"] .txt h3{font-size:26px;margin:0;color:rgba(234,234,234,.45);transition:color .5s}
+  .passos[data-v="c"] .etapa.ativa .txt h3{color:var(--off)}
+  .passos[data-v="c"] .txt p{max-height:0;opacity:0;overflow:hidden;transition:max-height .6s cubic-bezier(.16,1,.3,1),opacity .5s,margin .5s}
+  .passos[data-v="c"] .etapa.ativa .txt p{max-height:120px;opacity:1;margin-top:8px}
+  .passos[data-v="c"] .etapa-foto{position:absolute;margin:0;right:var(--gut);top:50%;width:min(40vw,520px);aspect-ratio:4/5;transform:translateY(-50%) scale(1.04);opacity:0;transition:opacity .9s,transform 1.4s cubic-bezier(.16,1,.3,1)}
+  .passos[data-v="c"] .etapa.ativa .etapa-foto{opacity:1;transform:translateY(-50%)}
+  .passos[data-v="c"] .wrap{position:relative}
+  .passos[data-v="c"] .car-dots{display:none}
+}
+.passos[data-v] .etapa-num{font-variant-numeric:lining-nums}
