@@ -47,6 +47,29 @@
     ch.querySelector('.chat-form').addEventListener('submit',function(ev){ev.preventDefault();var m=inp.value.trim();if(!m){inp.focus();return}
       window.open('https://wa.me/5583999881090?text='+encodeURIComponent(m),'_blank','noopener');inp.value=''});
   }
+  /* deslize para liberar: arrastar a pílula até o fim dispara o botão; toque e teclado continuam iguais */
+  [].forEach.call(document.querySelectorAll('.btn-pilula:not(.btn-pilula-nav)'),function(b){
+    var pil=b.querySelector('.pil'),txt=b.querySelector('.pil-txt');if(!pil||!txt)return;
+    b.classList.add('desliza');var r=document.createElement('span');r.className='rastro';r.setAttribute('aria-hidden','true');b.insertBefore(r,b.firstChild);
+    var x0=0,dx=0,max=0,ativo=false,moveu=false,ignora=false;
+    var poe=function(v){pil.style.transform=v?'translateX('+v+'px)':'';r.style.width=v?(pil.offsetWidth+v)+'px':'';txt.style.opacity=v?Math.max(0,1-v/(max*.6)):''};
+    pil.addEventListener('pointerdown',function(e){if(e.button>0)return;ativo=true;moveu=false;x0=e.clientX;dx=0;
+      max=b.clientWidth-pil.offsetWidth-2*pil.offsetLeft;try{pil.setPointerCapture(e.pointerId)}catch(_){}});
+    pil.addEventListener('pointermove',function(e){if(!ativo)return;dx=Math.max(0,Math.min(max,e.clientX-x0));
+      if(!moveu&&dx>6){moveu=true;b.classList.add('arrastando')}if(moveu){e.preventDefault();poe(dx)}});
+    var solta=function(){if(!ativo)return;ativo=false;b.classList.remove('arrastando');
+      if(!moveu)return;ignora=true;setTimeout(function(){ignora=false},60);
+      if(dx>=max*.82){b.classList.add('liberado');poe(max);if(navigator.vibrate)navigator.vibrate(12);
+        setTimeout(function(){ignora=false;b.click();setTimeout(function(){b.classList.remove('liberado');poe(0)},700)},220)}
+      else poe(0)};
+    pil.addEventListener('pointerup',solta);pil.addEventListener('pointercancel',function(){ativo=false;b.classList.remove('arrastando');poe(0)});
+    b.addEventListener('click',function(e){if(ignora){e.preventDefault();e.stopImmediatePropagation()}},true);
+    b.setAttribute('draggable','false');b.addEventListener('dragstart',function(e){e.preventDefault()});
+  });
+  if(matchMedia('(pointer:coarse)').matches&&'IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var dicas=0,iod=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting&&dicas<2){dicas++;e.target.classList.add('dica');iod.unobserve(e.target);setTimeout(function(){e.target.classList.remove('dica')},1800)}})},{rootMargin:'0px 0px -30% 0px'});
+    [].forEach.call(document.querySelectorAll('.btn-pilula.desliza'),function(b){iod.observe(b)});
+  }
   if(!window.gsap||reduz){document.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none'});return}
   gsap.registerPlugin(ScrollTrigger);
   var desk=matchMedia('(min-width:821px)').matches;
