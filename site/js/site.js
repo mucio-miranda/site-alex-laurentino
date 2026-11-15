@@ -10,8 +10,9 @@
   var ol=document.querySelector('.etapas'),dots=document.querySelector('.car-dots');
   if(ol&&dots){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
     lis.forEach(function(li,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Etapa '+(k+1));b.addEventListener('click',function(){ol.scrollTo({left:li.offsetLeft-ol.offsetLeft-pad(),behavior:'smooth'})});dots.appendChild(b)});
-    var marca=function(){var x=ol.scrollLeft,m=0,d=1e9;lis.forEach(function(li,k){var dd=Math.abs(li.offsetLeft-ol.offsetLeft-pad()-x);if(dd<d){d=dd;m=k}});[].forEach.call(dots.children,function(b,k){b.setAttribute('aria-current',k===m?'true':'false')})};
+    var marca=function(){var x=ol.scrollLeft,m=0,d=1e9;lis.forEach(function(li,k){var dd=Math.abs(li.offsetLeft-ol.offsetLeft-pad()-x);if(dd<d){d=dd;m=k}});[].forEach.call(dots.children,function(b,k){b.setAttribute('aria-current',k===m?'true':'false')});lis.forEach(function(li,k){li.classList.toggle('ativa',k===m)});ol.classList.add('pronto')};
     ol.addEventListener('scroll',marca,{passive:true});marca()}
+  var vw=document.querySelector('.valores .wrap');if(vw&&matchMedia('(max-width:820px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var cp=vw.innerHTML;vw.insertAdjacentHTML('beforeend','<i></i>'+cp.replace(/<span>/g,'<span aria-hidden="true">')+'<i></i>')}
   var barra=document.querySelector('.barra-ct'),heroEl=document.getElementById('inicio');
   if(barra&&heroEl&&'IntersectionObserver' in window){new IntersectionObserver(function(en){barra.classList.toggle('mostra',!en[0].isIntersecting)},{rootMargin:'-60% 0px 0px 0px'}).observe(heroEl)}else if(barra){barra.classList.add('mostra')}
   var reduz=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -84,6 +85,10 @@
   gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
+  if(!desk){
+    gsap.to('[data-parallax]',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
+    gsap.fromTo('.tribuna .simbolo',{yPercent:10},{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
+  }
   if(desk){
     gsap.to('.hero-foto img',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     gsap.to('[data-parallax]',{yPercent:10,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
