@@ -7,18 +7,8 @@
   bg.addEventListener('click',function(){var a=menu.classList.toggle('aberto');bg.setAttribute('aria-expanded',a?'true':'false');bg.setAttribute('aria-label',a?'Fechar menu':'Abrir menu')});
   document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',fecha)});
   addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('aberto')){fecha();bg.focus()}});
-  /* quatro etapas: jornada horizontal; os ícones se desenham quando a etapa acende */
-  var pas=document.querySelector('.passos[data-v="jornada"]'),lisP=pas?pas.querySelectorAll('.etapa'):[];
-  if(pas){[].forEach.call(pas.querySelectorAll('.etapa-ic svg *'),function(n){try{n.style.setProperty('--len',Math.ceil(n.getTotalLength()+1))}catch(e){}});
-    lisP[0].classList.add('on');
-    var acende=function(k){[].forEach.call(lisP,function(l,i){l.classList.toggle('on',i<=k)})};
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches)acende(3);
-    else if(matchMedia('(max-width:820px)').matches){var olJ=pas.querySelector('.etapas');
-      var porRolagem=function(){var w=olJ.clientWidth,m=0;[].forEach.call(lisP,function(l,i){if(l.getBoundingClientRect().left<w*.55)m=i});acende(m)};
-      olJ.addEventListener('scroll',porRolagem,{passive:true})}
-    setTimeout(function(){if(!window.gsap)acende(3)},1700)}
   var ol=document.querySelector('.etapas'),dots=document.querySelector('.car-dots');
-  if(ol&&dots&&!pas){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
+  if(ol&&dots){var lis=[].slice.call(ol.children);var pad=function(){return parseFloat(getComputedStyle(ol).paddingLeft)||0};
     lis.forEach(function(li,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Etapa '+(k+1));b.addEventListener('click',function(){ol.scrollTo({left:li.offsetLeft-ol.offsetLeft-pad(),behavior:'smooth'})});dots.appendChild(b)});
     var marca=function(){var x=ol.scrollLeft,m=0,d=1e9;lis.forEach(function(li,k){var dd=Math.abs(li.offsetLeft-ol.offsetLeft-pad()-x);if(dd<d){d=dd;m=k}});[].forEach.call(dots.children,function(b,k){b.setAttribute('aria-current',k===m?'true':'false')});lis.forEach(function(li,k){li.classList.toggle('ativa',k===m)});ol.classList.add('pronto')};
     ol.addEventListener('scroll',marca,{passive:true});marca()}
@@ -106,7 +96,7 @@
   gsap.utils.toArray('main h2.rv, .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
     gsap.from(ws,{yPercent:110,duration:1,ease:'power4.out',stagger:.05,scrollTrigger:{trigger:el,start:'top 86%'}})});
   /* fotos: emergem do escuro, como um fade de cinema, e assentam devagar (leve desfoque só no computador) */
-  gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').filter(function(f){return !(desk&&f.closest('.passos[data-v="c"]'))}).forEach(function(f){var img=f.querySelector('img,.dest-bg');
+  gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').forEach(function(f){var img=f.querySelector('img,.dest-bg');
     var tl=gsap.timeline({scrollTrigger:{trigger:f,start:'top 85%'},defaults:{ease:'power2.out'}});
     tl.fromTo(f,{opacity:0},{opacity:1,duration:1.6},0);
     if(img){tl.fromTo(img,{scale:1.1},{scale:1,duration:2.6,ease:'power3.out',clearProps:'scale'},0);
@@ -119,11 +109,6 @@
   gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
-  /* etapas: no computador a seção fica parada e a rolagem empurra o caminho para o lado */
-  if(pas&&desk){var trC=pas.querySelector('.etapas'),dist=function(){return Math.max(0,trC.scrollWidth-pas.querySelector('.wrap').clientWidth)};
-    gsap.to(trC,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:pas,start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.6,invalidateOnRefresh:true,
-      onUpdate:function(s){var p=s.progress;trC.style.setProperty('--prog',p.toFixed(4));var k=Math.min(3,Math.floor(p*3.2+.15));[].forEach.call(lisP,function(l,i){l.classList.toggle('on',i<=k)})}}})}
-  else if(pas&&!desk){ScrollTrigger.create({trigger:pas,start:'top 70%',once:true,onEnter:function(){lisP[0].classList.add('on')}})}
   if(!desk){
     gsap.to('[data-parallax]',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
     gsap.fromTo('.tribuna .simbolo',{yPercent:10},{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.tribuna',start:'top bottom',end:'bottom top',scrub:true}});
