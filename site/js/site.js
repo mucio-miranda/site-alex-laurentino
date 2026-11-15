@@ -42,7 +42,7 @@
   gsap.to('.hero .rv:not(h1)',{opacity:1,y:0,duration:1,ease:'power3.out',stagger:.12,delay:atraso+.45});
   gsap.fromTo('.hero-foto img',{scale:1.08,filter:'brightness(.35)'},{scale:1,filter:'brightness(1)',duration:1.8,ease:'power2.out',delay:atraso-.2,clearProps:'filter'});
   /* títulos das seções */
-  gsap.utils.toArray('main h2.rv, .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
+  gsap.utils.toArray('main h2.rv:not(#urgente-t), .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
     gsap.from(ws,{yPercent:110,duration:1,ease:'power4.out',stagger:.05,scrollTrigger:{trigger:el,start:'top 86%'}})});
   /* fotos: revelação por recorte, de baixo para cima, com respiro */
   gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').forEach(function(f){var img=f.querySelector('img,.dest-bg');
@@ -54,7 +54,17 @@
   gsap.utils.toArray('.dossie div, .atu-lista li, .faq details').forEach(function(el,k){el.classList.add('linha-anim');
     ScrollTrigger.create({trigger:el,start:'top 92%',once:true,onEnter:function(){setTimeout(function(){el.classList.add('on')},(k%6)*90)}})});
   /* o resto: só aparece, sem deslizar muito */
-  gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
+  /* seção urgente: assunto sério, o título só surge devagar, sem palavra por palavra */
+  var urg=document.querySelector('.urgente');
+  if(urg){var tu=gsap.timeline({scrollTrigger:{trigger:urg,start:'top 82%'},defaults:{ease:'power1.out'}});
+    var p=function(s){return urg.querySelector(s)};
+    tu.fromTo('#urgente-t',{opacity:0,y:8},{opacity:1,y:0,duration:1.4})
+      .fromTo(p('.urg-alivio'),{opacity:0},{opacity:1,duration:1.1},'-=.7')
+      .fromTo(p('.urg-alivio+p'),{opacity:0},{opacity:1,duration:1.1},'-=.6')
+      .fromTo(p('.urg-prazo'),{opacity:0,x:-6},{opacity:1,x:0,duration:1.2},'-=.7')
+      .fromTo(p('.acoes'),{opacity:0,y:6},{opacity:1,y:0,duration:1},'-=.6')
+      .fromTo(p('.btn-pilula .pil'),{boxShadow:'0 0 0 0 rgba(226,199,156,0)'},{boxShadow:'0 0 34px 6px rgba(226,199,156,.32)',duration:1.1,yoyo:true,repeat:1,ease:'sine.inOut',clearProps:'boxShadow'},'-=.2')}
+  gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'&&!e.closest('.urgente')}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
   if(desk){
