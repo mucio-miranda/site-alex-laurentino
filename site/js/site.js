@@ -35,7 +35,7 @@
       else if(!ch.classList.contains('aberta')){ch.classList.remove('on');clearTimeout(t1)}};
     new IntersectionObserver(function(en){mostra(!en[0].isIntersecting)},{rootMargin:'-40% 0px 0px 0px'}).observe(topoH);
     var io=new IntersectionObserver(function(en){en.forEach(function(e){e.isIntersecting?perto.add(e.target):perto.delete(e.target)});ch.classList.toggle('prev-fora',perto.size>0)});
-    ['.faq-urg','#contato','footer'].forEach(function(s){var el=document.querySelector(s);if(el)io.observe(el)});
+    ['.faq-urg','footer'].forEach(function(s){var el=document.querySelector(s);if(el)io.observe(el)});
     var abre=function(on,semFoco){ch.classList.toggle('aberta',on);botao.setAttribute('aria-expanded',on);
       if(on){ch.classList.remove('nova','chegou','digitando');marca();if(!cel.matches)setTimeout(function(){inp.focus({preventScroll:true})},350)}else if(!semFoco)botao.focus({preventScroll:true})};
     document.addEventListener('pointerdown',function(ev){if(ch.classList.contains('aberta')&&!ch.contains(ev.target))abre(false,true)});
