@@ -25,8 +25,9 @@
   var atraso=document.documentElement.classList.contains('sem-loader')?.1:1.05;
   /* rolagem suave (só com mouse) */
   if(window.Lenis&&matchMedia('(pointer:fine)').matches){
-    var lenis=new Lenis({duration:1.15,easing:function(x){return Math.min(1,1.001-Math.pow(2,-10*x))}});
-    lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(tm){lenis.raf(tm*1000)});gsap.ticker.lagSmoothing(0);
+    var lenis=new Lenis({lerp:.12});
+    lenis.on('scroll',ScrollTrigger.update);
+    document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){setTimeout(function(){lenis.resize();ScrollTrigger.refresh()},500)})});gsap.ticker.add(function(tm){lenis.raf(tm*1000)});gsap.ticker.lagSmoothing(0);
     document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(ev){var id=a.getAttribute('href');if(id.length<2)return;var alvo=document.querySelector(id);if(!alvo)return;ev.preventDefault();lenis.scrollTo(alvo,{offset:-66})})});
   }
   /* palavras com máscara */
