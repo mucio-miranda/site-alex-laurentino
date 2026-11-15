@@ -484,9 +484,6 @@ details[open]::details-content{height:auto}
 .btn-pilula.arrastando .rastro,.btn-pilula.liberado .rastro{opacity:1}
 .btn-pilula.liberado .pil{transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .btn-pilula.liberado .pil-txt{opacity:0}
-.btn-pilula.dica .pil{animation:dica 1.4s cubic-bezier(.45,0,.2,1) .2s}
-@keyframes dica{0%,100%{transform:none}35%{transform:translateX(22px)}55%{transform:translateX(16px)}}
-@media (prefers-reduced-motion:reduce){.btn-pilula.dica .pil{animation:none}}
 
 /* ===== fecho: último convite antes do rodapé ===== */
 .fecho{position:relative;padding:clamp(80px,10vw,140px) 0;text-align:center;overflow:hidden;

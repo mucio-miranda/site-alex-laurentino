@@ -66,10 +66,6 @@
     b.addEventListener('click',function(e){if(ignora){e.preventDefault();e.stopImmediatePropagation()}},true);
     b.setAttribute('draggable','false');b.addEventListener('dragstart',function(e){e.preventDefault()});
   });
-  if(matchMedia('(pointer:coarse)').matches&&'IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
-    var dicas=0,iod=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting&&dicas<2){dicas++;e.target.classList.add('dica');iod.unobserve(e.target);setTimeout(function(){e.target.classList.remove('dica')},1800)}})},{rootMargin:'0px 0px -30% 0px'});
-    [].forEach.call(document.querySelectorAll('.btn-pilula.desliza'),function(b){iod.observe(b)});
-  }
   if(!window.gsap||reduz){document.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none'});return}
   gsap.registerPlugin(ScrollTrigger);
   var desk=matchMedia('(min-width:821px)').matches;
