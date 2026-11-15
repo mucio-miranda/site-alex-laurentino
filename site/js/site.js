@@ -95,11 +95,12 @@
   /* títulos das seções */
   gsap.utils.toArray('main h2.rv, .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
     gsap.from(ws,{yPercent:110,duration:1,ease:'power4.out',stagger:.05,scrollTrigger:{trigger:el,start:'top 86%'}})});
-  /* fotos: revelação por recorte, de baixo para cima, com respiro */
+  /* fotos: emergem do escuro, como um fade de cinema, e assentam devagar (leve desfoque só no computador) */
   gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').forEach(function(f){var img=f.querySelector('img,.dest-bg');
-    var tl=gsap.timeline({scrollTrigger:{trigger:f,start:'top 85%'}});
-    tl.fromTo(f,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1.25,ease:'power3.inOut',clearProps:'clipPath'});
-    if(img)tl.fromTo(img,{scale:1.12},{scale:1,duration:1.6,ease:'power3.out',clearProps:'scale'},0)});
+    var tl=gsap.timeline({scrollTrigger:{trigger:f,start:'top 85%'},defaults:{ease:'power2.out'}});
+    tl.fromTo(f,{opacity:0},{opacity:1,duration:1.6},0);
+    if(img){tl.fromTo(img,{scale:1.1},{scale:1,duration:2.6,ease:'power3.out',clearProps:'scale'},0);
+      if(img.tagName==='IMG')tl.fromTo(img,{filter:desk?'brightness(.3) blur(6px)':'brightness(.3)'},{filter:desk?'brightness(1) blur(0px)':'brightness(1)',duration:2,clearProps:'filter'},0)}});
   gsap.set('.sobre-foto.rv, .dest.rv',{opacity:1,y:0});
   /* fios que se desenham */
   gsap.utils.toArray('.dossie div, .atu-lista li, .faq details').forEach(function(el,k){el.classList.add('linha-anim');
