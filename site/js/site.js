@@ -19,6 +19,27 @@
   function tiraLoader(){if(loader&&!loader.classList.contains('sai')){loader.classList.add('sai');setTimeout(function(){loader.remove()},800)}}
   if(document.documentElement.classList.contains('sem-loader'))tiraLoader();
   else{var t0=Date.now();var fim=function(){setTimeout(tiraLoader,Math.max(0,1150-(Date.now()-t0)))};if(document.readyState==='complete')fim();else addEventListener('load',fim);setTimeout(tiraLoader,2200)}
+  /* aviso no canto: surge depois do topo, some perto da FAQ urgente, do contato e do rodapé; fechado, não volta na sessão */
+  var av=document.getElementById('aviso'),topoH=document.getElementById('inicio');
+  if(av&&topoH&&'IntersectionObserver' in window){
+    var v=(location.search.match(/[?&]msg=([abc])/)||[])[1]||'a';av.setAttribute('data-v',v);
+    var fechado=false;try{fechado=!/msg=/.test(location.search)&&!!sessionStorage.getItem('alx-aviso')}catch(e){}
+    var passou=false,perto=new Set(),ja=false,timer;
+    var cel=matchMedia('(max-width:820px)');
+    var abrirWa=function(){window.open('https://wa.me/5583999881090','_blank','noopener')};
+    var mostra=function(on){if(on){av.hidden=false;av.classList.remove('sai');requestAnimationFrame(function(){requestAnimationFrame(function(){av.classList.add('on')})});
+        if(v==='c'&&!ja){ja=true;setTimeout(function(){if(!av.matches(':hover,:focus-within'))av.classList.add('recolhido')},14000)}}
+      else if(!av.hidden){av.classList.add('sai');av.classList.remove('on');setTimeout(function(){if(!av.classList.contains('on'))av.hidden=true},400)}};
+    var avalia=function(){clearTimeout(timer);if(fechado)return mostra(false);if(passou&&!perto.size)timer=setTimeout(function(){mostra(true)},ja?150:1400);else mostra(false)};
+    new IntersectionObserver(function(en){passou=!en[0].isIntersecting;avalia()},{rootMargin:'-40% 0px 0px 0px'}).observe(topoH);
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting)perto.add(e.target);else perto.delete(e.target)});avalia()});
+    ['.faq-urg','#contato','footer'].forEach(function(s){var el=document.querySelector(s);if(el)io.observe(el)});
+    av.querySelector('.aviso-x').addEventListener('click',function(){fechado=true;try{sessionStorage.setItem('alx-aviso','1')}catch(e){}mostra(false)});
+    av.querySelector('.aviso-pill').addEventListener('click',function(){av.classList.add('aberto');this.setAttribute('aria-expanded','true');var x=av.querySelector('.aviso-x');setTimeout(function(){x.focus()},50)});
+    av.querySelector('.aviso-cabeca').addEventListener('click',function(){av.classList.toggle('recolhido')});
+    av.querySelector('.aviso-painel').addEventListener('click',function(ev){if(cel.matches&&!ev.target.closest('.aviso-x'))abrirWa()});
+    addEventListener('keydown',function(ev){if(ev.key==='Escape'&&av.classList.contains('on'))av.querySelector('.aviso-x').click()});
+  }
   if(!window.gsap||reduz){document.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none'});return}
   gsap.registerPlugin(ScrollTrigger);
   var desk=matchMedia('(min-width:821px)').matches;
@@ -42,7 +63,7 @@
   gsap.to('.hero .rv:not(h1)',{opacity:1,y:0,duration:1,ease:'power3.out',stagger:.12,delay:atraso+.45});
   gsap.fromTo('.hero-foto img',{scale:1.08,filter:'brightness(.35)'},{scale:1,filter:'brightness(1)',duration:1.8,ease:'power2.out',delay:atraso-.2,clearProps:'filter'});
   /* títulos das seções */
-  gsap.utils.toArray('main h2.rv:not(#urgente-t), .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
+  gsap.utils.toArray('main h2.rv, .tribuna blockquote.rv').forEach(function(el){el.style.opacity=1;el.style.transform='none';var ws=quebra(el);
     gsap.from(ws,{yPercent:110,duration:1,ease:'power4.out',stagger:.05,scrollTrigger:{trigger:el,start:'top 86%'}})});
   /* fotos: revelação por recorte, de baixo para cima, com respiro */
   gsap.utils.toArray('.etapa-foto, .sobre-foto, .dest').forEach(function(f){var img=f.querySelector('img,.dest-bg');
@@ -54,17 +75,7 @@
   gsap.utils.toArray('.dossie div, .atu-lista li, .faq details').forEach(function(el,k){el.classList.add('linha-anim');
     ScrollTrigger.create({trigger:el,start:'top 92%',once:true,onEnter:function(){setTimeout(function(){el.classList.add('on')},(k%6)*90)}})});
   /* o resto: só aparece, sem deslizar muito */
-  /* seção urgente: assunto sério, o título só surge devagar, sem palavra por palavra */
-  var urg=document.querySelector('.urgente');
-  if(urg){var tu=gsap.timeline({scrollTrigger:{trigger:urg,start:'top 82%'},defaults:{ease:'power1.out'}});
-    var p=function(s){return urg.querySelector(s)};
-    tu.fromTo('#urgente-t',{opacity:0,y:8},{opacity:1,y:0,duration:1.4})
-      .fromTo(p('.urg-alivio'),{opacity:0},{opacity:1,duration:1.1},'-=.7')
-      .fromTo(p('.urg-alivio+p'),{opacity:0},{opacity:1,duration:1.1},'-=.6')
-      .fromTo(p('.urg-prazo'),{opacity:0,x:-6},{opacity:1,x:0,duration:1.2},'-=.7')
-      .fromTo(p('.acoes'),{opacity:0,y:6},{opacity:1,y:0,duration:1},'-=.6')
-      .fromTo(p('.btn-pilula .pil'),{boxShadow:'0 0 0 0 rgba(226,199,156,0)'},{boxShadow:'0 0 34px 6px rgba(226,199,156,.32)',duration:1.1,yoyo:true,repeat:1,ease:'sine.inOut',clearProps:'boxShadow'},'-=.2')}
-  gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'&&!e.closest('.urgente')}).forEach(function(e){
+  gsap.utils.toArray('.rv').filter(function(e){return !e.closest('.hero')&&e.style.opacity!=='1'}).forEach(function(e){
     gsap.fromTo(e,{opacity:0,y:16},{opacity:1,y:0,duration:.9,ease:'power2.out',scrollTrigger:{trigger:e,start:'top 90%'}})});
   /* tribuna em profundidade: foto e recorte juntos, o símbolo em outra velocidade */
   if(desk){
