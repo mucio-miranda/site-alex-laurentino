@@ -168,16 +168,30 @@
     <div class="fim"><span>Alex Laurentino · Advogado · OAB/PB nº 36.166 · <a class="link-sub" href="privacidade.html">Política de privacidade</a></span><span>Conteúdo informativo, conforme o Provimento 205/2021 da OAB.</span></div>
   </div>
 </footer>
-<aside class="aviso" id="aviso" data-v="a" aria-labelledby="aviso-t" hidden>
-  <button class="aviso-cabeca" type="button" aria-label="Abrir mensagem do escritório" aria-controls="aviso-painel"><img src="assets/img/alex-avatar.webp" alt="" width="160" height="160"></button>
-  <button class="aviso-pill" type="button" aria-expanded="false" aria-controls="aviso-painel"><img src="assets/img/alex-avatar.webp" alt="" width="160" height="160"><span>Alguém da sua família foi preso?</span><svg class="seta" viewBox="0 0 32 16" aria-hidden="true"><path d="M2 8h27M23 2.5L29 8l-6 5.5"/></svg></button>
-  <div class="aviso-painel" id="aviso-painel">
-    <button class="aviso-x" type="button" aria-label="Fechar mensagem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="aviso-de"><img src="assets/img/alex-avatar.webp" alt="" width="160" height="160"><p><b>Alex Laurentino</b><span>Advogado criminalista</span></p></div>
-    <p class="aviso-t" id="aviso-t">Alguém da sua família foi preso?</p>
-    <p class="aviso-sub">Prisão em flagrante não é condenação. A orientação deve vir antes da audiência de custódia.</p>
-    <a class="aviso-cta" href="https://wa.me/5583999881090" target="_blank" rel="noopener"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.6A8 8 0 1112 20a8 8 0 01-3.9-1z"/><path d="M9.2 8.6c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .5.4l.7 1.6c.1.2 0 .4-.1.6l-.5.6c-.1.1-.1.3 0 .5a6 6 0 002.6 2.4c.2.1.4.1.5 0l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.2.3.4 0 .4-.1 1-.5 1.3-.4.4-1.1.7-1.8.6-2.6-.4-5-2.6-5.8-5-.2-.6-.1-1.4.4-1.9z"/></svg>Falar agora pelo WhatsApp</a>
+<aside class="chat" id="chat" aria-label="Conversa com o escritório" hidden>
+  <div class="chat-prev" id="chat-prev">
+    <button class="chat-prev-x" type="button" aria-label="Dispensar mensagem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="chat-prev-corpo" type="button" aria-controls="chat-janela">
+      <span class="chat-prev-de">Alex Laurentino Advocacia</span>
+      <span class="chat-digita" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="chat-prev-msg">Alguém da sua família foi preso?</span>
+    </button>
   </div>
+  <section class="chat-janela" id="chat-janela" role="dialog" aria-labelledby="chat-tit">
+    <header class="chat-cab"><img src="assets/img/alex-avatar.webp" alt="" width="160" height="160"><p id="chat-tit"><b>Alex Laurentino</b><span>Atende pelo WhatsApp</span></p>
+      <button class="chat-fecha" type="button" aria-label="Fechar conversa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="chat-msgs" data-lenis-prevent>
+      <p class="balao">Alguém da sua família foi preso?</p>
+      <p class="balao">Prisão em flagrante não é condenação. A orientação deve vir antes da audiência de custódia.</p>
+      <p class="balao">Escolha uma opção ou escreva abaixo. A conversa continua no WhatsApp, com sigilo.</p>
+      <div class="chat-opcoes"><a href="https://wa.me/5583999881090?text=Ol%C3%A1%2C%20Dr.%20Alex.%20Um%20familiar%20foi%20preso%20e%20preciso%20de%20orienta%C3%A7%C3%A3o." target="_blank" rel="noopener">Sim, preciso de orientação agora</a><a href="https://wa.me/5583999881090?text=Ol%C3%A1%2C%20Dr.%20Alex.%20Recebi%20uma%20intima%C3%A7%C3%A3o%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o." target="_blank" rel="noopener">Recebi uma intimação</a><a href="https://wa.me/5583999881090?text=Ol%C3%A1%2C%20Dr.%20Alex.%20Gostaria%20de%20falar%20com%20o%20escrit%C3%B3rio." target="_blank" rel="noopener">Tenho outra dúvida</a></div>
+    </div>
+    <form class="chat-form" action="https://wa.me/5583999881090" target="_blank"><label class="sr-only" for="chat-in">Sua mensagem</label>
+      <input id="chat-in" name="text" placeholder="Escreva sua mensagem" autocomplete="off" enterkeyhint="send">
+      <button type="submit" aria-label="Enviar pelo WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"/><path d="M11.5 13.5L20 4"/></svg></button></form>
+    <small class="chat-nota">Ao enviar, o WhatsApp abre com a sua mensagem.</small>
+  </section>
+  <button class="chat-botao" type="button" aria-expanded="false" aria-controls="chat-janela" aria-label="Abrir conversa com o escritório"><img src="assets/img/alex-avatar.webp" alt="" width="160" height="160"><span class="chat-badge" aria-hidden="true">1</span></button>
 </aside>
 <nav class="barra-ct" aria-label="Contato rápido"><a class="wa" href="https://wa.me/5583999881090" target="_blank" rel="noopener"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.6A8 8 0 1112 20a8 8 0 01-3.9-1z"/><path d="M9.2 8.6c.2-.5.5-.5.8-.5h.5c.2 0 .4 0 .5.4l.7 1.6c.1.2 0 .4-.1.6l-.5.6c-.1.1-.1.3 0 .5a6 6 0 002.6 2.4c.2.1.4.1.5 0l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.2.3.4 0 .4-.1 1-.5 1.3-.4.4-1.1.7-1.8.6-2.6-.4-5-2.6-5.8-5-.2-.6-.1-1.4.4-1.9z"/></svg>WhatsApp</a><a class="lg" href="tel:+5583999881090"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>Ligar</a></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
