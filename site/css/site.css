@@ -502,4 +502,7 @@ details[open]::details-content{height:auto}
   .tribuna .bg,.tribuna .bg.pessoa{height:min(132vw,68svh);background-size:auto 118%;background-position:60% 8%;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 54%,rgba(0,0,0,.88) 62%,rgba(0,0,0,.66) 71%,rgba(0,0,0,.4) 80%,rgba(0,0,0,.16) 90%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 54%,rgba(0,0,0,.88) 62%,rgba(0,0,0,.66) 71%,rgba(0,0,0,.4) 80%,rgba(0,0,0,.16) 90%,transparent 100%)}
   .tribuna .simbolo{right:-14%;top:3%;width:78vw;opacity:.09}
   .tribuna .wrap{margin-top:-96px}
+  .tribuna .bg,.tribuna .bg.pessoa{-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 44%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.62) 64%,rgba(0,0,0,.38) 74%,rgba(0,0,0,.16) 85%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 44%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.62) 64%,rgba(0,0,0,.38) 74%,rgba(0,0,0,.16) 85%,transparent 100%)}
+  .tribuna::before{display:block;content:"";position:absolute;left:0;right:0;top:0;bottom:auto;height:min(132vw,68svh);z-index:1;pointer-events:none;
+    background:linear-gradient(0deg,var(--preto) 0%,rgba(1,3,8,.82) 14%,rgba(1,3,8,.55) 28%,rgba(1,3,8,.22) 42%,transparent 56%),linear-gradient(180deg,rgba(1,3,8,.55) 0%,transparent 18%)}
 }
