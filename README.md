@@ -4,7 +4,7 @@ Site institucional do Dr. Alex Laurentino, advogado criminalista inscrito na OAB
 precisa de um criminalista com urgência (prisão em flagrante, audiência de custódia, intimação) e para quem pesquisa
 o advogado antes de contratar.
 
-**No ar:** [alexlaurentino.netlify.app](https://alexlaurentino.netlify.app)
+**No ar:** [alexlaurentinoadvocacia.com](https://alexlaurentinoadvocacia.com) (domínio na Hostinger: A @ → 75.2.60.5, CNAME www → alexlaurentino.netlify.app; HTTPS Let's Encrypt pela Netlify)
 
 ![Topo do site no computador](docs/img/topo-desktop.jpg)
 
@@ -87,7 +87,7 @@ A Netlify roda `python3 scripts/build.py` e publica `dist/`.
 Sem o repositório vinculado, o mesmo vale pela CLI:
 
 ```bash
-python scripts/build.py --url https://alexlaurentino.netlify.app
+python scripts/build.py --url https://alexlaurentinoadvocacia.com
 npx netlify-cli deploy --prod --dir dist
 ```
 

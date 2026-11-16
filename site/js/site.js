@@ -20,29 +20,25 @@
   function tiraLoader(){if(loader&&!loader.classList.contains('sai')){loader.classList.add('sai');setTimeout(function(){loader.remove()},800)}}
   if(document.documentElement.classList.contains('sem-loader'))tiraLoader();
   else{var t0=Date.now();var fim=function(){setTimeout(tiraLoader,Math.max(0,1150-(Date.now()-t0)))};if(document.readyState==='complete')fim();else addEventListener('load',fim);setTimeout(tiraLoader,2200)}
-  /* chat no canto: aparece depois do topo; no computador a prévia chega com "digitando"; a resposta abre o WhatsApp */
+  /* chat no canto: fica visível em todas as seções, desde o topo; no computador a prévia chega com "digitando"; a resposta abre o WhatsApp */
   var ch=document.getElementById('chat'),topoH=document.getElementById('inicio');
   if(ch&&topoH&&'IntersectionObserver' in window&&!matchMedia('(max-width:820px)').matches){
     var janela=ch.querySelector('.chat-janela'),botao=ch.querySelector('.chat-botao'),inp=ch.querySelector('#chat-in');
     var cel=matchMedia('(max-width:820px)'),calmo=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var visto=false;try{visto=!!sessionStorage.getItem('alx-chat')}catch(e){}
-    var marca=function(){visto=true;try{sessionStorage.setItem('alx-chat','1')}catch(e){}};
-    var chegou=false,perto=new Set(),t1;
-    var chega=function(){if(chegou||visto)return;chegou=true;
+    var chegou=false,fechou=false,t1;
+    var chega=function(){if(chegou)return;chegou=true;
       if(cel.matches){ch.classList.add('nova');return}
-      ch.classList.add('digitando');setTimeout(function(){ch.classList.remove('digitando');ch.classList.add('chegou','nova')},calmo?0:1300)};
-    var mostra=function(on){if(on){ch.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){ch.classList.add('on')})});clearTimeout(t1);t1=setTimeout(chega,1200)}
+      ch.classList.add('digitando');setTimeout(function(){ch.classList.remove('digitando');if(!fechou)ch.classList.add('chegou','nova')},calmo?0:1300)};
+    var mostra=function(on){if(on){ch.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){ch.classList.add('on')})});clearTimeout(t1);t1=setTimeout(chega,400)}
       else if(!ch.classList.contains('aberta')){ch.classList.remove('on');clearTimeout(t1)}};
-    new IntersectionObserver(function(en){mostra(!en[0].isIntersecting)},{rootMargin:'-40% 0px 0px 0px'}).observe(topoH);
-    var io=new IntersectionObserver(function(en){en.forEach(function(e){e.isIntersecting?perto.add(e.target):perto.delete(e.target)});ch.classList.toggle('prev-fora',perto.size>0)});
-    ['.faq-urg','footer'].forEach(function(s){var el=document.querySelector(s);if(el)io.observe(el)});
+    mostra(true);
     var abre=function(on,semFoco){ch.classList.toggle('aberta',on);botao.setAttribute('aria-expanded',on);
-      if(on){ch.classList.remove('nova','chegou','digitando');marca();if(!cel.matches)setTimeout(function(){inp.focus({preventScroll:true})},350)}else if(!semFoco)botao.focus({preventScroll:true})};
+      if(on){ch.classList.remove('nova');if(!cel.matches)setTimeout(function(){inp.focus({preventScroll:true})},350)}else if(!semFoco)botao.focus({preventScroll:true})};
     document.addEventListener('pointerdown',function(ev){if(ch.classList.contains('aberta')&&!ch.contains(ev.target))abre(false,true)});
     botao.addEventListener('click',function(){abre(!ch.classList.contains('aberta'))});
     ch.querySelector('.chat-prev-corpo').addEventListener('click',function(){abre(true)});
+    ch.querySelector('.chat-prev-x').addEventListener('click',function(){fechou=true;ch.classList.remove('chegou','digitando')});
     ch.querySelector('.chat-fecha').addEventListener('click',function(){abre(false)});
-    ch.querySelector('.chat-prev-x').addEventListener('click',function(){ch.classList.remove('chegou','digitando');marca()});
     addEventListener('keydown',function(ev){if(ev.key==='Escape'&&ch.classList.contains('aberta'))abre(false)});
     ch.querySelector('.chat-form').addEventListener('submit',function(ev){ev.preventDefault();var m=inp.value.trim();if(!m){inp.focus();return}
       window.open('https://wa.me/5583999881090?text='+encodeURIComponent(m),'_blank','noopener');inp.value=''});
