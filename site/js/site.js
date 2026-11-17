@@ -26,10 +26,18 @@
     var janela=ch.querySelector('.chat-janela'),botao=ch.querySelector('.chat-botao'),inp=ch.querySelector('#chat-in');
     var cel=matchMedia('(max-width:820px)'),calmo=matchMedia('(prefers-reduced-motion: reduce)').matches;
     var chegou=false,fechou=false,t1;
-    var chega=function(){if(chegou)return;chegou=true;
+    var visto=false;try{visto=sessionStorage.getItem('chat-msg')==='1'}catch(e){}
+    /* padrão de chat de suporte: a mensagem espera a pessoa se situar (12 s ou uma tela de rolagem), aparece uma vez por visita e some sozinha */
+    var agenda=function(){if(visto||chegou)return;var y0=scrollY,t=setTimeout(vai,12000),rola=function(){if(scrollY-y0>innerHeight)vai()};
+      function vai(){clearTimeout(t);removeEventListener('scroll',rola);chega()}
+      addEventListener('scroll',rola,{passive:true})};
+    var chega=function(){if(chegou)return;chegou=true;try{sessionStorage.setItem('chat-msg','1')}catch(e){}
       if(cel.matches){ch.classList.add('nova');return}
-      ch.classList.add('digitando');setTimeout(function(){ch.classList.remove('digitando');if(!fechou)ch.classList.add('chegou','nova')},calmo?0:1300)};
-    var mostra=function(on){if(on){ch.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){ch.classList.add('on')})});clearTimeout(t1);t1=setTimeout(chega,400)}
+      ch.classList.add('digitando');setTimeout(function(){ch.classList.remove('digitando');if(!fechou){ch.classList.add('chegou','nova');recolhe()}},calmo?0:1300)};
+    var recolhe=function(){var y0=scrollY,t=setTimeout(fora,8000),rola=function(){if(Math.abs(scrollY-y0)>innerHeight*.6)fora()};
+      function fora(){clearTimeout(t);removeEventListener('scroll',rola);ch.classList.add('prev-fora')}
+      addEventListener('scroll',rola,{passive:true})};
+    var mostra=function(on){if(on){ch.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){ch.classList.add('on')})});clearTimeout(t1);t1=setTimeout(agenda,400)}
       else if(!ch.classList.contains('aberta')){ch.classList.remove('on');clearTimeout(t1)}};
     mostra(true);
     var abre=function(on,semFoco){ch.classList.toggle('aberta',on);botao.setAttribute('aria-expanded',on);
