@@ -34,7 +34,7 @@ if out.exists():
 shutil.copytree(SITE, out, ignore=shutil.ignore_patterns("desktop.ini", ".DS_Store"))
 
 ROBOTS_PROD = '<meta name="robots" content="index, follow, max-image-preview:large">'
-for f in out.glob("*.html"):
+for f in out.rglob("*.html"):
     t = f.read_text(encoding="utf-8").replace("%%SITE_URL%%", url)
     if teste:
         t = t.replace(ROBOTS_PROD, '<meta name="robots" content="noindex, nofollow">')
