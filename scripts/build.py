@@ -46,8 +46,7 @@ else:
     hoje = datetime.date.today().isoformat()
     (out / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f"  <url><loc>{url}/</loc><lastmod>{hoje}</lastmod></url>\n"
-        f"  <url><loc>{url}/links/</loc><lastmod>{hoje}</lastmod></url>\n</urlset>\n", encoding="utf-8")
+        f"  <url><loc>{url}/</loc><lastmod>{hoje}</lastmod></url>\n</urlset>\n", encoding="utf-8")
     (out / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\n\nSitemap: {url}/sitemap.xml\n", encoding="utf-8")
 
