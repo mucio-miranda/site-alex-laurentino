@@ -34,7 +34,7 @@ if out.exists():
 shutil.copytree(SITE, out, ignore=shutil.ignore_patterns("desktop.ini", ".DS_Store"))
 
 ROBOTS_PROD = '<meta name="robots" content="index, follow, max-image-preview:large">'
-for f in out.glob("*.html"):
+for f in out.rglob("*.html"):
     t = f.read_text(encoding="utf-8").replace("%%SITE_URL%%", url)
     if teste:
         t = t.replace(ROBOTS_PROD, '<meta name="robots" content="noindex, nofollow">')
@@ -46,7 +46,8 @@ else:
     hoje = datetime.date.today().isoformat()
     (out / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f"  <url><loc>{url}/</loc><lastmod>{hoje}</lastmod></url>\n</urlset>\n", encoding="utf-8")
+        f"  <url><loc>{url}/</loc><lastmod>{hoje}</lastmod></url>\n"
+        f"  <url><loc>{url}/links/</loc><lastmod>{hoje}</lastmod></url>\n</urlset>\n", encoding="utf-8")
     (out / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\n\nSitemap: {url}/sitemap.xml\n", encoding="utf-8")
 

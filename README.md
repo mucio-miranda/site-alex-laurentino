@@ -60,7 +60,8 @@ site/                 o que vai para o ar
   index.html          página principal
   404.html            página de erro
   privacidade.html    política de privacidade
-  css/                site.css (principal), paginas.css (404), privacidade.css
+  links/index.html    página de links (/links) para a bio do Instagram: WhatsApp, Instagram, site e mapa
+  css/                site.css (principal), paginas.css (404), privacidade.css, links.css
   js/site.js          menu, carrossel das etapas no celular e animações
   assets/img/         fotos
   assets/marca/       logos
