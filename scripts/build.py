@@ -48,6 +48,6 @@ else:
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         f"  <url><loc>{url}/</loc><lastmod>{hoje}</lastmod></url>\n</urlset>\n", encoding="utf-8")
     (out / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nDisallow: /obrigado.html\n\nSitemap: {url}/sitemap.xml\n", encoding="utf-8")
+        f"User-agent: *\nAllow: /\n\nSitemap: {url}/sitemap.xml\n", encoding="utf-8")
 
 print(f"pronto: {out}  ({'teste, sem indexação' if teste else 'produção'})  {url}")

@@ -47,7 +47,8 @@ O sistema completo (cores, tipos, espaçamentos e componentes) está em [docs/DE
 
 - HTML e CSS puros, sem framework nem etapa de compilação de front-end.
 - [GSAP 3.12](https://gsap.com) com ScrollTrigger para as entradas e o parallax.
-- Formulário de contato pelo Netlify Forms, com honeypot contra spam.
+- [Lenis 1.1](https://github.com/darkroomengineering/lenis) para a rolagem suave com mouse.
+- Contato só pelo WhatsApp e telefone: a janela de conversa repassa a mensagem ao WhatsApp e não guarda nada.
 - SEO: canonical, Open Graph, sitemap e JSON-LD (`LegalService` e `Person`; o `FAQPage` saiu junto com a FAQ).
 - Acessibilidade: foco visível, alvos de toque de 44 px e respeito a `prefers-reduced-motion`. Sem
   JavaScript, ou se o GSAP não carregar, todo o conteúdo aparece normalmente.
@@ -58,9 +59,8 @@ O sistema completo (cores, tipos, espaçamentos e componentes) está em [docs/DE
 site/                 o que vai para o ar
   index.html          página principal
   404.html            página de erro
-  obrigado.html       confirmação do formulário
   privacidade.html    política de privacidade
-  css/                site.css (principal), paginas.css (404 e obrigado), privacidade.css
+  css/                site.css (principal), paginas.css (404), privacidade.css
   js/site.js          menu, carrossel das etapas no celular e animações
   assets/img/         fotos
   assets/marca/       logos
