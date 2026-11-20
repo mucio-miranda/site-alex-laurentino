@@ -29,7 +29,6 @@ a:focus-visible{outline:2px solid var(--ouro-3);outline-offset:4px}
 h1{font:500 clamp(40px,11vw,52px)/1 var(--serif);letter-spacing:-.01em}
 h1 em{font-style:italic}
 .cargo{margin-top:12px;font:500 11px/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--ouro-2)}
-.bio{margin:14px auto 0;max-width:330px;color:var(--cinza);font-size:15px;text-wrap:balance}
 
 /* links: pílula de vidro com o disco dourado do site */
 .links{display:grid;gap:12px;margin-top:32px}
@@ -100,7 +99,6 @@ h1 em{font-style:italic}
   .conteudo{grid-column:1;grid-row:1;align-self:center;width:100%;max-width:520px;margin:0 auto;padding:64px 40px}
   .perfil{margin-top:0;text-align:left}
   h1{font-size:clamp(52px,4.6vw,68px)}
-  .bio{margin-left:0;max-width:400px}
   .links{margin-top:36px}
   .rodape{text-align:left}
 }
