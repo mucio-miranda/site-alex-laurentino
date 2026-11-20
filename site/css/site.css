@@ -447,7 +447,7 @@ details[open]::details-content{height:auto}
   .valores{display:block;margin-top:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
   .valores::before,.valores::after{left:0;right:0}
-  .valores .wrap{display:flex;flex-wrap:nowrap;justify-content:flex-start;width:max-content;max-width:none;height:auto;margin:0;padding:15px 0;gap:0 20px;font-size:12px;white-space:nowrap;animation:faixa 46s linear infinite}
+  .valores .wrap{display:flex;flex-wrap:nowrap;justify-content:flex-start;width:max-content;max-width:none;height:auto;margin:0;padding:15px 0;gap:0 20px;font-size:12px;white-space:nowrap;animation:faixa 30s linear infinite}
   .valores .wrap span,.valores .wrap i{display:block!important;flex:none}
   @keyframes faixa{to{transform:translateX(-50%)}}
   /* respiro entre seções: generoso, sem buracos */
