@@ -90,7 +90,7 @@ h1 em{font-style:italic}
   .pagina{max-width:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);min-height:100svh}
   .capa{grid-column:2;grid-row:1;position:sticky;top:0;height:100svh;margin:0;aspect-ratio:auto;border-radius:0}
   /* no computador a capa usa a foto do hero do site (retrato sentado), sem o recorte da tribuna nem o símbolo */
-  .capa-foto{background-image:url(../assets/img/hero-escritorio.jpg);background-size:cover;background-position:50% 22%}
+  .capa-foto{background-image:url(../assets/img/hero-escritorio.webp);background-size:cover;background-position:50% 22%}
   .capa-pessoa,.capa-simbolo{display:none}
   /* a foto some no fundo pela esquerda (máscara), sem emenda com o brilho azul da coluna de texto */
   .capa{-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 10%,rgba(0,0,0,.8) 22%,#000 34%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 10%,rgba(0,0,0,.8) 22%,#000 34%)}
