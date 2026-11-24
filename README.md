@@ -48,6 +48,7 @@ O sistema completo (cores, tipos, espaçamentos e componentes) está em [docs/DE
 - HTML e CSS puros, sem framework nem etapa de compilação de front-end.
 - [GSAP 3.12](https://gsap.com) com ScrollTrigger para as entradas e o parallax.
 - [Lenis 1.1](https://github.com/darkroomengineering/lenis) para a rolagem suave com mouse.
+- Google Tag Manager (`GTM-T9FHTKV2`, do gestor de tráfego): o build injeta o código só em produção, nos marcadores `<!--%%GTM_HEAD%%-->` e `<!--%%GTM_BODY%%-->` de cada página. Prévias e branches ficam sem a tag, para não sujar as métricas.
 - Contato só pelo WhatsApp e telefone: a janela de conversa repassa a mensagem ao WhatsApp e não guarda nada.
 - SEO: canonical, Open Graph, sitemap e JSON-LD (`LegalService` e `Person`; o `FAQPage` saiu junto com a FAQ).
 - Acessibilidade: foco visível, alvos de toque de 44 px e respeito a `prefers-reduced-motion`. Sem

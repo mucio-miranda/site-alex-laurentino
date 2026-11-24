@@ -5,6 +5,7 @@ Na Netlify roda sozinho (netlify.toml). Fora dela:
 
 - troca %%SITE_URL%% (canonical, og:url, og:image, JSON-LD) pela URL do deploy;
 - gera sitemap.xml e robots.txt;
+- injeta o Google Tag Manager (marcadores <!--%%GTM_HEAD%%--> e <!--%%GTM_BODY%%--> nas páginas) só em produção;
 - em deploy preview e branch deploy (CONTEXT da Netlify diferente de "production"), ou com --noindex,
   marca as páginas como noindex e bloqueia robôs, para a versão de teste não entrar no Google.
 """
@@ -16,6 +17,23 @@ import shutil
 
 RAIZ = pathlib.Path(__file__).resolve().parents[1]
 SITE = RAIZ / "site"
+
+GTM_ID = "GTM-T9FHTKV2"
+GTM_HEAD = (
+    "<!-- Google Tag Manager -->\n"
+    "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n"
+    "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n"
+    "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n"
+    "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n"
+    f"}})(window,document,'script','dataLayer','{GTM_ID}');</script>\n"
+    "<!-- End Google Tag Manager -->"
+)
+GTM_BODY = (
+    "<!-- Google Tag Manager (noscript) -->\n"
+    f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}"\n'
+    'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n'
+    "<!-- End Google Tag Manager (noscript) -->"
+)
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--url", help="URL final do site (padrão: variáveis da Netlify ou localhost)")
@@ -36,6 +54,7 @@ shutil.copytree(SITE, out, ignore=shutil.ignore_patterns("desktop.ini", ".DS_Sto
 ROBOTS_PROD = '<meta name="robots" content="index, follow, max-image-preview:large">'
 for f in out.rglob("*.html"):
     t = f.read_text(encoding="utf-8").replace("%%SITE_URL%%", url)
+    t = t.replace("<!--%%GTM_HEAD%%-->", "" if teste else GTM_HEAD).replace("<!--%%GTM_BODY%%-->", "" if teste else GTM_BODY)
     if teste:
         t = t.replace(ROBOTS_PROD, '<meta name="robots" content="noindex, nofollow">')
     f.write_text(t, encoding="utf-8", newline="\n")
