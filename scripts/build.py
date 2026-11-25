@@ -18,21 +18,24 @@ import shutil
 RAIZ = pathlib.Path(__file__).resolve().parents[1]
 SITE = RAIZ / "site"
 
-GTM_ID = "GTM-T9FHTKV2"
-GTM_HEAD = (
+# contêineres do Google Tag Manager (cada um com o seu snippet padrão, na ordem da lista)
+GTM_IDS = ["GTM-T9FHTKV2", "GTM-KQFW9V29"]
+GTM_HEAD = "\n".join(
     "<!-- Google Tag Manager -->\n"
     "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n"
     "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n"
     "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n"
     "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n"
-    f"}})(window,document,'script','dataLayer','{GTM_ID}');</script>\n"
+    f"}})(window,document,'script','dataLayer','{i}');</script>\n"
     "<!-- End Google Tag Manager -->"
+    for i in GTM_IDS
 )
-GTM_BODY = (
+GTM_BODY = "\n".join(
     "<!-- Google Tag Manager (noscript) -->\n"
-    f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}"\n'
+    f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={i}"\n'
     'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n'
     "<!-- End Google Tag Manager (noscript) -->"
+    for i in GTM_IDS
 )
 
 ap = argparse.ArgumentParser()
